@@ -4,8 +4,8 @@ import pandas as pd
 
 class S3Connector:
     def __init__(self,
-                 aws_access_key_id="AKIAYA4GPMZJZL7RISMR",
-                 aws_secret_access_key="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",
+                 aws_access_key_id,
+                 aws_secret_access_key,
                  region_name="eu-west-1",
                  bucket_name="cb-silver-bucket",
                  dataset="csv-data"):
