@@ -1,0 +1,14 @@
+.app-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.file-list-container {
+  flex: 1;
+  margin-right: 20px;
+}
+
+.csv-data-table-container {
+  flex: 1;
+}
