@@ -65,7 +65,7 @@ const TimelineGraph = () => {
 
   return (
     <div>
-      <h2>Timeline Graph</h2>
+      <h2>Ingestion Timeline Graph</h2>
       {data && data.files.length > 0 ? (
         <Chart options={options} series={series} type="line" height={350} />
       ) : (

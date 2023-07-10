@@ -1,8 +1,11 @@
 from django.db import models
+from django.apps import apps
 
 
 class CSVDataManager(models.Manager):
     def bulk_insert_from_csv(self, data):
+        File = apps.get_model('backend', 'File')
+
         num_files = data['file_name'].nunique()
         num_lines = len(data)
 
@@ -12,7 +15,7 @@ class CSVDataManager(models.Manager):
                 'address': item['address'],
                 'description': item['description'],
                 'email': item['email'],
-                'file_name': item['file_name']
+                'file': File.objects.get(file_name=item['file_name'])
             }
             for _, item in data.iterrows()
         ]
@@ -24,4 +27,4 @@ class CSVDataManager(models.Manager):
         return num_files, num_lines
 
     def get_file_names(self):
-        return self.values_list('file_name', flat=True)
+        return self.values_list('file__file_name', flat=True)

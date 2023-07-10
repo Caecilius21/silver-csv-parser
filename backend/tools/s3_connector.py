@@ -1,11 +1,11 @@
+import os
 import boto3
 import pandas as pd
+import json
 
 
 class S3Connector:
     def __init__(self,
-                 aws_access_key_id,
-                 aws_secret_access_key,
                  region_name="eu-west-1",
                  bucket_name="cb-silver-bucket",
                  dataset="csv-data"):
@@ -14,9 +14,17 @@ class S3Connector:
         self.s3_client = boto3.client(
             's3',
             region_name=region_name,
-            aws_access_key_id=aws_access_key_id,
-            aws_secret_access_key=aws_secret_access_key
+            aws_access_key_id=self._get_aws_credentials()['aws_access_key_id'],
+            aws_secret_access_key=self._get_aws_credentials()[
+                'aws_secret_access_key']
         )
+
+    def _get_aws_credentials(self):
+        config_path = os.path.join(os.path.dirname(
+            __file__), '..', '..', 'config', 'aws_config.json')
+        with open(config_path) as config_file:
+            config = json.load(config_file)
+        return config['aws_credentials']
 
     def get_total_files_in_dataset(self):
         try:

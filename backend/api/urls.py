@@ -12,4 +12,5 @@ urlpatterns = [
     path('s3-vs-database-comparison/', views.s3_vs_database_comparison),
     path('timeline-data/', views.timeline_data_view),
     path('delete-files-from-database/', views.delete_files_from_database),
+    path('ingestion-message-list/', views.ingestion_message_view),
 ]

@@ -6,6 +6,7 @@ import MyTitle from "./MyTitle";
 import ComparisonGraph from "./ComparisonGraph";
 import { Grid } from "@mui/material";
 import TimelineGraph from "./TimeLineGraph";
+import IngestionMessageList from "./IngestionMessageList";
 
 function App() {
   return (
@@ -24,6 +25,9 @@ function App() {
       </Grid>
       <Grid item xs={6}>
         <TimelineGraph />
+      </Grid>
+      <Grid item xs={12} md={12}>
+        <IngestionMessageList />
       </Grid>
     </Grid>
   );

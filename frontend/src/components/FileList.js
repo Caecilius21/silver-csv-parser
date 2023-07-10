@@ -131,7 +131,13 @@ const FileList = () => {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell />
+                <TableCell>
+                  <Checkbox
+                    checked={selectAll}
+                    onChange={handleSelectAll}
+                    color="primary"
+                  />
+                </TableCell>
                 <TableCell>Filename</TableCell>
                 <TableCell>Size</TableCell>
                 <TableCell>Creation Date</TableCell>

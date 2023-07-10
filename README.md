@@ -1,30 +1,22 @@
-# run server
+# CSV Parser application
+
+## run server
 
 python manage.py runserver
 
-# rebundle frontend
+## Bundle frontend
 
 cd frontend
 npm run dev
 
-# run tests
-
-python manage.py test
-coverage run --source='.' manage.py test
-
-# run docker
+## run docker
 
 Build the container image.
-$ docker build -t csv-parser .
+$ docker build -t config .
 Start your container
-$ docker run -dp 127.0.0.1:8000:8000 csv-parser
+$ docker run -p 8000:8000 config
 
-# generate test report
+## clear pycache
 
-coverage html
-coverage report
-
-# TODO
-
-- docker
-- postgresql
+Get-ChildItem -Path . -Recurse -Filter **pycache** | Remove-Item -Force -Recurse
+Get-ChildItem -Path . -Recurse -Filter \*.pyc | Remove-Item -Force
