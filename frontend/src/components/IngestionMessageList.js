@@ -39,7 +39,6 @@ const IngestionMessageList = () => {
             <TableCell>File Name</TableCell>
             <TableCell>Status</TableCell>
             <TableCell>Message</TableCell>
-            <TableCell>Number of Lines</TableCell>
             <TableCell>Ingestion Timestamp</TableCell>
           </TableRow>
         </TableHead>
@@ -54,7 +53,6 @@ const IngestionMessageList = () => {
                 <TableCell>{message.file}</TableCell>
                 <TableCell>{message.status}</TableCell>
                 <TableCell>{message.message}</TableCell>
-                <TableCell>{message.num_lines}</TableCell>
                 <TableCell>{message.ingestion_timestamp}</TableCell>
               </TableRow>
             ))
