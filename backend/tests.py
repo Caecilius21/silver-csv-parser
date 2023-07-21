@@ -1,52 +1,68 @@
-import numpy as np
-from django.test import TestCase, Client
-from django.urls import reverse
-from .views import sinusoide
+from django.test import TestCase
+from backend.models import File, CSVData, IngestionMessage
+from django.utils import timezone
 
-from rest_framework.test import APIRequestFactory, APIClient, RequestsClient
-import random
+class ModelTests(TestCase):
+    def setUp(self):
+        pass
 
+    def test_file_model(self):
+        # Test the File model
+        file = File.objects.create(
+            file_name='test_file.txt',
+            size=1024,
+            creation_datetime='2023-07-21 12:00:00',
+            bucket='test_bucket'
+        )
+        self.assertEqual(str(file), 'test_file.txt')
+        self.assertEqual(file.size, 1024)
+        self.assertEqual(str(file.creation_datetime), '2023-07-21 12:00:00')
+        self.assertEqual(file.bucket, 'test_bucket')
 
-class TestingAPI(TestCase):
+    def test_csv_data_model(self):
+        # Test the CSVData model
+        file = File.objects.create(
+            file_name='test_file.txt',
+            size=1024,
+            creation_datetime='2023-07-21 12:00:00',
+            bucket='test_bucket'
+        )
+        csv_data = CSVData.objects.create(
+            username='test_user',
+            address='test_address',
+            description='test_description',
+            email='test@example.com',
+            file=file
+        )
+        self.assertEqual(str(csv_data), 'test_user')
+        self.assertEqual(csv_data.username, 'test_user')
+        self.assertEqual(csv_data.address, 'test_address')
+        self.assertEqual(csv_data.description, 'test_description')
+        self.assertEqual(csv_data.email, 'test@example.com')
+        self.assertEqual(csv_data.file, file)
 
-    def test_create_req(self):
-        factory = APIRequestFactory()
-        request = factory.post(
-            '/api/graph/', {'frequence': 10, 'amplitude': 10, 'temps': 10})
-
-    def test_post_req(self):
-        client = APIClient()
-        response = client.post(
-            '/api/graph/', {'frequence': 10, 'amplitude': 10, 'temps': 10})
-        assert response.status_code == 200
-
-    def test_get_req(self):
-        client = APIClient()
-        response = client.get('/api/graph/')
-        assert response.status_code == 200
-
-
-class TestingFrontend(TestCase):
-    @classmethod
-    def setUpTestData(cls):
-        cls.client = Client()
-        cls.url = reverse('homepage')
-
-
-class TestingValues(TestCase):
-    @classmethod
-    def setUpTestData(cls):
-        cls.temps = abs(random.random()) * 1000
-        cls.amplitude = random.random() * 1000
-        cls.frequency = abs(random.random()) * 1000
-
-    def test_value(self):
-        self.assertEqual(sinusoide(0, 0, 0), 0)
-
-    def test_greater_amplitude(self):
-        self.assertGreaterEqual(
-            sinusoide(self.temps, self.amplitude, self.frequency), -self.amplitude)
-
-    def test_greater_amplitude(self):
-        self.assertLessEqual(
-            sinusoide(self.temps, self.amplitude, self.frequency), self.amplitude)
+    def test_ingestion_message_model(self):
+        # Test the IngestionMessage model
+        file = File.objects.create(
+            file_name='test_file.txt',
+            size=1024,
+            creation_datetime=timezone.now(),
+            bucket='test_bucket'
+        )
+        ingestion_timestamp = timezone.now()
+        ingestion_message = IngestionMessage.objects.create(
+            file=file,
+            status='ok',
+            message='Test message',
+            num_lines='10',
+            ingestion_timestamp=ingestion_timestamp
+        )
+        self.assertEqual(str(ingestion_message), 'Test message')
+        self.assertEqual(ingestion_message.file, file)
+        self.assertEqual(ingestion_message.status, 'ok')
+        self.assertEqual(ingestion_message.message, 'Test message')
+        self.assertEqual(ingestion_message.num_lines, '10')
+        self.assertEqual(
+            ingestion_message.ingestion_timestamp,
+            ingestion_timestamp
+        )

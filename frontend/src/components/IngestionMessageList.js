@@ -9,6 +9,11 @@ import {
   Paper,
 } from "@mui/material";
 import axios from "axios";
+import { styled } from "@mui/material/styles";
+
+const StyledTableRow = styled(TableRow)(({ theme, status }) => ({
+  backgroundColor: status === "ok" ? "#c8e6c9" : "#ffcdd2",
+}));
 
 const IngestionMessageList = () => {
   const [messages, setMessages] = useState([]);
@@ -44,17 +49,17 @@ const IngestionMessageList = () => {
         </TableHead>
         <TableBody>
           {loading ? (
-            <TableRow>
+            <StyledTableRow status="ok">
               <TableCell colSpan={5}>Loading...</TableCell>
-            </TableRow>
+            </StyledTableRow>
           ) : (
             messages.map((message) => (
-              <TableRow key={message.id}>
+              <StyledTableRow key={message.id} status={message.status}>
                 <TableCell>{message.file}</TableCell>
                 <TableCell>{message.status}</TableCell>
                 <TableCell>{message.message}</TableCell>
                 <TableCell>{message.ingestion_timestamp}</TableCell>
-              </TableRow>
+              </StyledTableRow>
             ))
           )}
         </TableBody>
