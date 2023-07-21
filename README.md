@@ -18,6 +18,10 @@ $ docker build -t config .
 Start your container
 $ docker run -p 8000:8000 config
 
+### run tests
+
+python.exe .\manage.py test
+
 ### clear pycache
 
 Get-ChildItem -Path . -Recurse -Filter **pycache** | Remove-Item -Force -Recurse
